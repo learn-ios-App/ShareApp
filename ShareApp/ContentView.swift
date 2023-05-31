@@ -8,14 +8,30 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var isActive = false
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        Button(action: {
+            isActive = true
+        }) {
+            Text("Share")
         }
-        .padding()
+        .sheet(isPresented: $isActive) {
+            ActivityView(activityItems: ["https://github.com/Aoitoridayo"])
+        }
+    }
+}
+struct ActivityView: UIViewControllerRepresentable {
+    let activityItems: [Any]
+    let applicationActivities: [UIActivity]? = nil
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ActivityView>) -> UIActivityViewController {
+        let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: applicationActivities)
+        return controller
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: UIViewControllerRepresentableContext<ActivityView>) {
+
     }
 }
 
